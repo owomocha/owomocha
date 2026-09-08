@@ -1,21 +1,25 @@
-I reverse-engineer things, and I work close to the metal. Most of what I make starts where the public API ends — a display controller's private interface, the instruction stream inside a Mach-O, a closed application's wire protocol — usually on macOS, in C, Rust and Python.
+I reverse-engineer things and work close to the metal: a display controller's private interface, the instruction stream inside a Mach-O, a closed app's wire protocol. Mostly on macOS, in C, Rust and Python.
 
-One recent example, small enough to tell end to end. My monitor runs at 360 Hz and macOS would only give me 300. On Apple silicon the refresh rates you're offered are chosen by the display coprocessor, not the OS, and once it drops a mode there's no public call to put it back — the old `DisplayProductID` EDID override doesn't even reach the DCP anymore. So I dumped every timing it kept and every one it threw away and went looking for the rule. It isn't bandwidth, and it isn't the blanking-*line* count people usually blame; it's blanking *time*. The DCP rejects any mode whose vertical blanking is shorter than roughly 100–150 µs. Hand it an EDID with fatter blanking through two private IOKit calls — I found the selectors by disassembling the dyld shared cache — make it rebuild its timing table, and 360 Hz comes back. I counted vsyncs to be sure it wasn't just a label on the mode: 359.998 Hz. It's [macos-360hz-unlock](https://github.com/owomocha/macos-360hz-unlock), and the README walks the whole hunt.
+Three things are public so far.
 
-The other two public repos are the same habit pointed elsewhere. [protocol-rekit](https://github.com/owomocha/protocol-rekit) reads how a closed desktop app talks to its server when the traffic is in the clear: a pcap/pcapng parser, arm64 `adrp`/`add` string recovery, a crypto-constant scanner, and a way to tell a live feed from a replayed snapshot by lining an in-band clock up against packet arrival time. Standard library only — no scapy, no capstone. [hidden-1s-candles](https://github.com/owomocha/hidden-1s-candles) is a measurement rather than a tool: which exchanges actually serve one-second candles, checked across 22 of them with a deliberately-wrong control next to every "no" so a plain rejection can't pass itself off as a missing feature. Eight really do; six of those never say so in their docs.
+- [macos-360hz-unlock](https://github.com/owomocha/macos-360hz-unlock). My monitor does 360 Hz and macOS would only give me 300. The display coprocessor turns out to reject any mode whose vertical blanking is shorter than about 100–150 µs, so I hand it an EDID with fatter blanking through two private IOKit calls (selectors dug out of the dyld shared cache) and make it rebuild its timing table. Counted vsyncs afterwards: 359.998 Hz.
+- [protocol-rekit](https://github.com/owomocha/protocol-rekit). Reading a closed desktop app's traffic when it's in the clear: pcap parser, arm64 string recovery, crypto-constant scanner. Standard library only.
+- [hidden-1s-candles](https://github.com/owomocha/hidden-1s-candles). Which exchanges actually serve one-second candles. 22 tested, 8 do, and 6 of those never say so.
 
-Most of my hours go to heavier things that aren't public yet — a GPU video compositor and a real-time charting engine, both in Rust on Apple silicon — and to reversing closed runtimes and the anti-tamper wrapped around them. I write my own fuzzers too, mostly aimed at file-format parsers, since that's where the interesting memory-corruption bugs tend to live.
+The heavier work isn't public yet: a GPU video compositor and a real-time charting engine, both Rust on Apple silicon, reversing closed runtimes and the anti-tamper wrapped around them, and fuzzers pointed at file-format parsers, where the memory-corruption bugs tend to live.
 
-If there's one thread, it's that I don't trust documentation. I measure the thing, I keep a control beside every claim, and I write down the times I was wrong — I dismissed two of those exchanges on the first pass and both were me misreading the response, not the venue. Below the API is where the real answer usually is, so that's where I go.
+I don't trust documentation. I measure the thing, keep a control next to every claim, and write down the times I was wrong.
 
 ---
 
-リバースエンジニアリングと、低レイヤーの仕事が中心です。作るものはたいてい公開 API が終わるところから始まります。ディスプレイコントローラの非公開インターフェース、Mach-O の中の命令列、クローズドなアプリの通信プロトコル。だいたい macOS 上で、C・Rust・Python で書いています。
+リバースエンジニアリングと低レイヤーが中心です。ディスプレイコントローラの非公開インターフェース、Mach-O の中の命令列、クローズドなアプリの通信プロトコル。だいたい macOS 上で、C・Rust・Python で書いています。
 
-最近の一例を、最初から最後まで。手元のモニタは 360 Hz なのに macOS は 300 までしか出しませんでした。Apple silicon で出せるリフレッシュレートを決めているのは OS ではなくディスプレイコプロセッサ (DCP) で、いちど落とされたモードを戻す公開 API は無い。昔の `DisplayProductID` による EDID 上書きも、今はもう DCP まで届きません。そこで受理されたタイミングと却下されたタイミングを全部ダンプして、規則を探しました。帯域でもなければ、よく槍玉に挙がるブランキングの「行数」でもない。効いていたのはブランキングの「時間」でした。DCP は垂直ブランキングがおよそ 100〜150 µs より短いモードを片っ端から捨てる。ブランキングを太らせた EDID を非公開の IOKit 呼び出し 2 本で渡し（セレクタは dyld 共有キャッシュを逆アセンブルして特定しました）、タイミング表を作り直させると、360 Hz が戻ってきます。ラベルだけの 360 でないことを確かめるために vsync を数えました。359.998 Hz。それが [macos-360hz-unlock](https://github.com/owomocha/macos-360hz-unlock) で、追いかけた過程は README に全部書いてあります。
+公開しているのは今のところ 3 つ。
 
-残り 2 本の公開リポジトリも、同じ癖を別の対象に向けたものです。[protocol-rekit](https://github.com/owomocha/protocol-rekit) は、平文で喋るクローズドなデスクトップアプリとサーバの通信を読むための道具一式。pcap/pcapng パーサ、arm64 の `adrp`/`add` からの文字列復元、暗号定数スキャナ、それとフィードがライブか再生かを in-band の時刻とパケット到着時刻の突き合わせで見分ける仕掛け。全部標準ライブラリだけで、scapy も capstone も使いません。[hidden-1s-candles](https://github.com/owomocha/hidden-1s-candles) は道具ではなく計測で、どの取引所が本当に 1 秒足を配信しているかを 22 か所で確かめたもの。「無い」の隣には必ずわざと間違えた対照値を置いて、ただの拒否が「機能が無い」に化けないようにしています。本当に配信しているのは 8 か所、うち 6 か所はドキュメントに一言も書いていません。
+- [macos-360hz-unlock](https://github.com/owomocha/macos-360hz-unlock)。360 Hz のモニタを macOS が 300 までしか出してくれなかった話。ディスプレイコプロセッサは垂直ブランキングが 100〜150 µs より短いモードを捨てていたので、ブランキングを太らせた EDID を非公開の IOKit 呼び出し 2 本（セレクタは dyld 共有キャッシュから掘り出した）で渡し、タイミング表を作り直させる。あとで vsync を数えたら 359.998 Hz。
+- [protocol-rekit](https://github.com/owomocha/protocol-rekit)。平文で喋るクローズドなデスクトップアプリの通信を読む道具。pcap パーサ、arm64 の文字列復元、暗号定数スキャナ。標準ライブラリだけ。
+- [hidden-1s-candles](https://github.com/owomocha/hidden-1s-candles)。本当に 1 秒足を配信している取引所はどこか。22 か所を試して 8 か所、うち 6 か所はどこにも書いていない。
 
-時間の大半は、まだ公開していない重いものに使っています。Rust と Apple silicon で書いている GPU 動画コンポジタとリアルタイムのチャートエンジン、それからクローズドなランタイムとその耐タンパ保護を解く作業。ファジングも自分でやっていて、主にファイルフォーマットのパーサに向けています。面白いメモリ破壊バグはたいていそこにあるので。
+重いものはまだ非公開です。Rust と Apple silicon で書いている GPU 動画コンポジタとリアルタイムのチャートエンジン、クローズドなランタイムと耐タンパ保護の解析、それとファイルフォーマットのパーサに向けた自作ファザー。面白いメモリ破壊バグはたいていそこにあるので。
 
-一本筋を通しているものがあるとすれば、ドキュメントを信用しないことです。自分で測る。主張の隣には対照を置く。間違えた回数は記録する。さっきの取引所も 2 か所は最初の一周で「無い」と切り捨てて、どちらもレスポンスの読み違いでした。答えはたいてい API の下にあるので、そこまで下りていきます。
+ドキュメントは信用しません。自分で測って、主張の隣に対照を置いて、間違えた回数を書き残す。
