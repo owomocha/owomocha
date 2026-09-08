@@ -8,8 +8,8 @@ Three things that show what that means in practice:
 
 The common thread is that I don't take the docs' word for it. Measure, put a control next to every claim, and write down the times I got it wrong.
 
-Currently: a Rust video editor and a wgpu charting app on Apple Silicon, and a tick-level quant backtester. Getting the parts I can share into public shape.
+Currently: a Rust video editor and a wgpu charting app on Apple Silicon. Getting the parts I can share into public shape.
 
 ---
 
-低レイヤーとリバースエンジニアリングが中心です。公開 API が終わるところから下 — macOS の内部、Mach-O / arm64、通信プロトコル — を C・Rust・Python でやっています。上の 3 つが具体例で、共通しているのは「ドキュメントを信じず実測する。主張のそばに必ず対照を置く。間違えた回数も書く」こと。いまは Apple Silicon 上の Rust 製動画エディタと wgpu チャート、tick 単位のバックテスタを、出せる部分から公開できる形に整えています。
+低レイヤーとリバースエンジニアリングが中心です。公開 API が終わるところから下 — macOS の内部、Mach-O / arm64、通信プロトコル — を C・Rust・Python でやっています。上の 3 つが具体例で、共通しているのは「ドキュメントを信じず実測する。主張のそばに必ず対照を置く。間違えた回数も書く」こと。いまは Apple Silicon 上の Rust 製動画エディタと wgpu チャートを、出せる部分から公開できる形に整えています。
