@@ -1,17 +1,21 @@
-I'm a security engineer interested in the gaps between specifications and implementations, and between observations and inference. I use reverse engineering to examine software internals and system performance analysis to guide low-level optimization, mainly in Rust, C and Python.
+I'm a security engineer. I reverse-engineer things and work close to the metal: Mach-O instruction streams, wire protocols, runtime internals. Mostly on macOS, in C, Rust and Python.
 
-For financial and market data, I use market microstructure to understand how observed series are generated, then express those mechanisms through time-series models based on stochastic processes. In signal extraction and alternative data analysis, I examine what statistical inference can identify under nonstationarity and selection bias, and how much uncertainty remains.
+I also work with financial and market data: collecting and cleaning time series, then building tools to analyze them. Time-series modeling informed by market microstructure, signal extraction from alternative data. I check the results against the data's biases and the model's assumptions.
 
-In distributed systems, including blockchains, I study how far local observations can establish global state, and which assumptions the guarantees of cryptographic protocols depend on. I distinguish assumptions from observations and try to keep the strength of my conclusions proportionate to the evidence behind them.
+For blockchains, I look at distributed systems and cryptographic protocols through their implementations: state consistency, message ordering, processing latency.
+
+I read the documentation, trace the code, and measure what it does. I keep the comparison conditions consistent and write down where I got things wrong.
 
 [Browse all repositories](https://github.com/owomocha?tab=repositories).
 
 ---
 
-セキュリティエンジニアとして、仕様と実装、観測と推論のあいだに生じるずれを調べています。リバースエンジニアリングでソフトウェアの内部構造を読み解き、システム性能解析から低レイヤー最適化へつなげています。実装は主に Rust・C・Python です。
+セキュリティエンジニアです。リバースエンジニアリングと低レイヤーが中心です。Mach-O の命令列、通信プロトコル、ランタイムの内部。だいたい macOS 上で、C・Rust・Python で書いています。
 
-金融・マーケットデータでは、マーケットマイクロストラクチャを手がかりに観測系列の生成機構を捉え、確率過程に基づく時系列モデルを構成しています。シグナル抽出やオルタナティブデータの評価では、非定常性と選択バイアスを踏まえ、統計的推論で何を識別でき、どの程度の不確実性が残るかを検討しています。
+金融・マーケットデータも扱っています。時系列を集めて整え、分析の道具を作る。マーケットマイクロストラクチャを踏まえた時系列モデリングや、オルタナティブデータからのシグナル抽出。データの偏りやモデルの仮定まで戻って、結果を確かめます。
 
-ブロックチェーンを含む分散システムでは、局所的な観測から大域的な状態をどこまで確定できるか、暗号プロトコルの保証がどの仮定に依存するかに関心があります。仮定と観測を区別し、結論の強さを根拠の強さに揃えるようにしています。
+ブロックチェーンでは、分散システムと暗号プロトコルを実装から見ています。状態の整合性、通信の順序、処理の遅延。
+
+まずドキュメントを読んで、コードを追って、自分で測る。比較の条件を揃えて、思い違いがあったところも書き残しています。
 
 [リポジトリ一覧を見る](https://github.com/owomocha?tab=repositories)。
