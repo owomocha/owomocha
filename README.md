@@ -1,17 +1,17 @@
-I'm a security engineer. I reverse-engineer things and work close to the metal: a display controller's private interface, the instruction stream inside a Mach-O, a closed app's wire protocol. Mostly on macOS, in C, Rust and Python.
+I'm a security engineer working on reverse engineering and systems software, mainly in Rust, C and Python. My work includes binary and protocol analysis, and low-level implementations where correctness and performance matter.
 
-My work also includes a GPU video compositor and a real-time charting engine, both Rust on Apple silicon, reversing closed runtimes and the anti-tamper wrapped around them, and fuzzers pointed at file-format parsers, where the memory-corruption bugs tend to live.
+I also build data pipelines and quantitative research tools for financial markets and blockchains. I use time-series analysis and statistical models to study market microstructure, and consider how data is ordered and kept consistent in distributed systems.
 
-I don't trust documentation. I measure the thing, keep a control next to every claim, and write down the times I was wrong.
+I try to make assumptions explicit and check conclusions against measurements. When results differ from expectations, I revisit my understanding.
 
 [Browse all repositories](https://github.com/owomocha?tab=repositories).
 
 ---
 
-セキュリティエンジニアです。リバースエンジニアリングと低レイヤーが中心です。ディスプレイコントローラの非公開インターフェース、Mach-O の中の命令列、クローズドなアプリの通信プロトコル。だいたい macOS 上で、C・Rust・Python で書いています。
+セキュリティエンジニアとして、リバースエンジニアリングとシステムソフトウェアの開発に取り組んでいます。主に Rust・C・Python を使い、バイナリや通信プロトコルの解析と、正確さや性能を意識した低レイヤーの実装を行っています。
 
-Rust と Apple silicon で GPU 動画コンポジタとリアルタイムのチャートエンジンを書いたり、クローズドなランタイムと耐タンパ保護を解析したり、ファイルフォーマットのパーサに自作ファザーを向けたりしています。面白いメモリ破壊バグはたいていそこにあるので。
+金融市場やブロックチェーンのデータを扱う基盤と、定量分析のためのツールも開発しています。時系列データの処理や統計モデルの検証を通じて、市場のマイクロストラクチャを調べています。分散システムでは、データの順序や整合性をどう保つかにも関心があります。
 
-ドキュメントは信用しません。自分で測って、主張の隣に対照を置いて、間違えた回数を書き残す。
+前提を明らかにし、実測に照らして考えるようにしています。結果が予想と違えば、それまでの理解も見直します。
 
 [リポジトリ一覧を見る](https://github.com/owomocha?tab=repositories)。
